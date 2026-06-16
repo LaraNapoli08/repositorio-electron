@@ -1,1 +1,2 @@
-# Electron-Desktop
+# repositorio-electron
+electron do projeto Sectio Aurea
