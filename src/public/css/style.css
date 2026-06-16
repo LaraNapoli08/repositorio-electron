@@ -1,0 +1,219 @@
+@import url('https://fonts.googleapis.com/css2?family=Barrio&family=Macondo&family=Madimi+One&family=Mogra&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Oswald:wght@200..700&display=swap');
+
+#menuLateral .nav-link {
+  color: black !important;
+  background-color: transparent !important;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+#menuLateral .nav-link:focus,
+#menuLateral .nav-link:active {
+  color: black !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+#menuLateral .nav-link:hover {
+  background-color: var(--cor-primaria) !important;
+  color: white !important;
+}
+
+#menuLateral .nav-link.active {
+  background-color: var(--cor-primaria) !important;
+  color: white !important;
+}
+
+
+:root {
+  --navbar-height: 80px;
+  --primary-color: #007bff;
+  --secondary-color: #58cc02;
+  --text-color: #2c1a00;
+  --bg-light: #f5f5f5;
+}
+
+
+body {
+  margin: 0;
+  padding-top: var(--navbar-height);
+  background-color: var(--bg-light);
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+
+/* ==================== SEÇÃO PRINCIPAL ==================== */
+section {
+  min-height: calc(100vh - var(--navbar-height));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+/* ==================== CONTEÚDO DO LOGIN ==================== */
+.hero-img {
+  max-width: 90%;
+  height: auto;
+  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.12));
+}
+
+h1 {
+  color: #333;
+  font-weight: bold;
+
+}
+
+p {
+  color: #555;
+}
+
+/* ======= CARD DE LOGIN ======= */
+.card {
+  background: #ffffff;
+  border: none;
+  border-radius: 20px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+  padding: 2rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+h5 {
+  color: #222;
+  font-weight: bold;
+}
+
+/* ======= FORM ======= */
+.form-label {
+  font-weight: bold;
+  color: #333;
+}
+
+.form-control {
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  transition: all 0.2s ease-in-out;
+}
+
+.form-control:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+/* ======= BOTÕES ======= */
+.btn-primary {
+  background-color: var(--primary-color);
+  border: none;
+  font-weight: bold;
+  border-radius: 10px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+/* Botões secundários */
+.btn-success {
+  background-color: var(--secondary-color);
+  border-color: var(--secondary-color);
+}
+
+.btn-success:hover {
+  background-color: #46a302;
+}
+
+.btn-outline-primary {
+  color: #1cb0f6;
+  border-color: #1cb0f6;
+}
+
+.btn-outline-primary:hover {
+  background-color: #1cb0f6;
+  color: white;
+}
+
+/* ======= LINK “ESQUECEU A SENHA” ======= */
+.text-end a {
+  color: var(--primary-color);
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.text-end a:hover {
+  text-decoration: underline;
+}
+
+/* ======= MODAL (caso use futuramente) ======= */
+.modal-dialog {
+  display: flex;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .modal-dialog {
+    min-height: calc(100vh - var(--navbar-height));
+  }
+}
+
+/* ==================== RESPONSIVIDADE ==================== */
+@media (max-width: 768px) {
+  section {
+    padding-top: 100px;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .hero-img {
+    max-width: 70%;
+    margin-bottom: 30px;
+  }
+
+  .card {
+    max-width: 90%;
+  }
+
+  h1 {
+    font-size: 1.6rem;
+  }
+}
+.custom-titlebar {
+  -webkit-app-region: drag; /* permite arrastar a janela */
+  height: 35px;
+  background-color: #f8f9fa;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.window-controls {
+  -webkit-app-region: no-drag; /* impede que os botões arrastem */
+}
+
+.window-controls button {
+  background: none;
+  border: none;
+  font-size: 16px;
+  padding: 0 8px;
+  cursor: pointer;
+}
+
+.window-controls button:hover {
+  background-color: #e4e4e4;
+}
+
