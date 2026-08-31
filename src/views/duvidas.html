@@ -162,21 +162,79 @@
       transition: background 0.2s;
     }
 
-    .campos {
+    #pesquisa {
       width: 100%;
-     
+      margin: 20px auto;
       display: block;
       padding: 10px 15px;
       border: 1px solid #e5e7eb;
-      border-radius: 12px;
+    border-radius: 12px;
       outline: none;
       font-size: 0.85rem;
     }
 
-    .card
-    {
-       border: 1px solid #e5e7eb;
-      border-radius: 40px;
+    #pesquisa:focus {
+      border-color: var(--cor-primaria);
+      box-shadow: 0 0 0 3px rgba(108, 117, 125, 0.1);
+    }
+
+    /* ===== BOTÕES PERSONALIZADOS ESTILO WEB ===== */
+    .btn-custom-web {
+      background-color: #1e1e1e !important;
+      color: white !important;
+      border: 2px solid #1e1e1e !important;
+      font-weight: bold !important;
+      border-radius: 10px !important;
+      padding: 6px 12px !important;
+      font-size: 0.8rem !important;
+      transition: all 0.2s ease-in-out !important;
+      text-decoration: none !important;
+      display: inline-block;
+      cursor: pointer;
+    }
+    
+    .btn-custom-web:hover {
+      background-color: white !important;
+      color: #1e1e1e !important;
+      border-color: #1e1e1e !important;
+    }
+
+    .btn-custom-outline {
+      background-color: transparent !important;
+      color: #1e1e1e !important;
+      border: 2px solid #1e1e1e !important;
+      font-weight: bold !important;
+      border-radius: 10px !important;
+      padding: 6px 12px !important;
+      font-size: 0.8rem !important;
+      transition: all 0.2s ease-in-out !important;
+      text-decoration: none !important;
+      display: inline-block;
+      cursor: pointer;
+    }
+
+    .btn-custom-outline:hover {
+      background-color: #1e1e1e !important;
+      color: white !important;
+    }
+
+    .btn-custom-danger {
+      background-color: transparent !important;
+      color: #dc3545 !important;
+      border: 2px solid #dc3545 !important;
+      font-weight: bold !important;
+      border-radius: 10px !important;
+      padding: 6px 12px !important;
+      font-size: 0.8rem !important;
+      transition: all 0.2s ease-in-out !important;
+      text-decoration: none !important;
+      display: inline-block;
+      cursor: pointer;
+    }
+
+    .btn-custom-danger:hover {
+      background-color: #dc3545 !important;
+      color: white !important;
     }
 
   </style>
@@ -184,8 +242,7 @@
 
 <body>
 
- 
-   <div class="sidebar d-flex flex-column fw-bold">
+  <div class="sidebar d-flex flex-column fw-bold">
     <img src="../public/img/userteste.png" alt="Foto do perfil" class="perfil-foto" id="fotoPerfil">
     <a href="paginainicialusuario.html"><i class="bi bi-people-fill"></i> Lista de Usuários</a>
     <a href="desativar.html"><i class="bi bi-person-x-fill"></i> Desativar Usuário</a>
@@ -196,60 +253,39 @@
   </div>
 
   <div class="content">
+    <h1 id="saudacao">Olá!</h1>
+    <p class="subtitle">Dúvidas e Mensagens dos Usuários</p>
 
-    <div class="header">
-      <h1 cla>Edite seu perfil</h1>
-      <p class="subtitle">Atualize suas informações
-      </p>
-    </div>
-
-    <form class="formAtualizar" id="formAtualizarAdm">
-      <div class="card p-4">
-
-        <div class="text-center mb-3">
-          <img id="fotoPreview" alt="Foto do perfil atual" class="perfil-foto" src="../public/img/userteste.png"
-            style="width: 120px; height: 120px; border-radius: 50%; border: 3px solid #bbb3b5; object-fit: cover;">
-        </div>
-
-
-        <div class="mb-3 text-start">
-          <label class="form-label ">Nome</label>
-          <input type="text" class="form-control  campos" id="nome" required>
-        </div>
-
-        <div class="mb-3 text-start">
-          <label class="form-label ">E-mail</label>
-          <input type="email" class="form-control  campos" id="email" required>
-        </div>
-
-        <div class="mb-3 text-start">
-          <label class="form-label">Senha</label>
-          <input type="password" class="form-control campos" id="senha" required>
-        </div>
-
-        <div class="mb-3 text-start">
-          <label class="form-label">Alterar foto de perfil</label>
-          <input type="file" class="form-control  campos" id="foto" accept="image/*"
-            style="background-color: rgb(255, 255, 255);">
-        </div>
-
-
-        
-        <button type="submit" class="btn w-100 campos" style="background-color: #000000; border-color: #bbb3b5; color: white;">
-          Atualizar
-        </button>
-
-
-        </form>
+    <div class="table-container">
+      <input type="text" id="pesquisa" placeholder="Pesquisar por nome, e-mail, tipo ou mensagem...">
+      <div style="overflow-x: auto; width: 100%; border-radius: 12px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); margin-top: 15px;">
+        <table id="tabelaDuvidas" style="margin-top: 0; width: 100%;">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Email</th>
+              <th>Tipo</th>
+              <th>Mensagem</th>
+              <th>Status</th>
+              <th>Data</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+        </table>
       </div>
     </div>
+  </div>
 
-    <script src="../public/js/sidebar.js"></script>
-    <script src="../public/js/editarAdm.js"></script>
+  <script src="../public/js/duvidas.js"></script>
+  <script>
+  
 
-
-
-
+    const fotoSalva = localStorage.getItem('fotoPerfil');
+    const fotoElement = document.getElementById('fotoPerfil');
+    if (fotoSalva && fotoElement) {
+      fotoElement.src = fotoSalva;
+    }
+  </script>
 
 </body>
 
