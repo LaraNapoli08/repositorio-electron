@@ -47,7 +47,6 @@ body {
 }
 
 
-/* ==================== SEÇÃO PRINCIPAL ==================== */
 section {
   min-height: calc(100vh - var(--navbar-height));
   display: flex;
@@ -56,7 +55,6 @@ section {
   padding: 2rem;
 }
 
-/* ==================== CONTEÚDO DO LOGIN ==================== */
 .hero-img {
   max-width: 90%;
   height: auto;
@@ -73,7 +71,6 @@ p {
   color: #555;
 }
 
-/* ======= CARD DE LOGIN ======= */
 .card {
   background: #ffffff;
   border: none;
@@ -93,7 +90,6 @@ h5 {
   font-weight: bold;
 }
 
-/* ======= FORM ======= */
 .form-label {
   font-weight: bold;
   color: #333;
@@ -111,7 +107,7 @@ h5 {
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
 }
 
-/* ======= BOTÕES ======= */
+
 .btn-primary {
   background-color: var(--primary-color);
   border: none;
@@ -124,7 +120,7 @@ h5 {
   background-color: #0056b3;
 }
 
-/* Botões secundários */
+
 .btn-success {
   background-color: var(--secondary-color);
   border-color: var(--secondary-color);
@@ -144,7 +140,6 @@ h5 {
   color: white;
 }
 
-/* ======= LINK “ESQUECEU A SENHA” ======= */
 .text-end a {
   color: var(--primary-color);
   font-size: 0.9rem;
@@ -155,7 +150,6 @@ h5 {
   text-decoration: underline;
 }
 
-/* ======= MODAL (caso use futuramente) ======= */
 .modal-dialog {
   display: flex;
   align-items: center;
@@ -169,7 +163,6 @@ h5 {
   }
 }
 
-/* ==================== RESPONSIVIDADE ==================== */
 @media (max-width: 768px) {
   section {
     padding-top: 100px;
@@ -191,8 +184,7 @@ h5 {
   }
 }
 .custom-titlebar {
-  -webkit-app-region: drag; /* permite arrastar a janela */
-  height: 35px;
+  -webkit-app-region: drag; 
   background-color: #f8f9fa;
   display: flex;
   justify-content: space-between;
@@ -202,7 +194,7 @@ h5 {
 }
 
 .window-controls {
-  -webkit-app-region: no-drag; /* impede que os botões arrastem */
+  -webkit-app-region: no-drag; 
 }
 
 .window-controls button {

@@ -15,7 +15,7 @@ const inputPesquisa = document.getElementById('pesquisa');
 
 function carregarDuvidas() {
   const query = "SELECT id_duvida, nome, email, tipo, mensagem, status, resposta, DATE_FORMAT(data_envio, '%d/%m/%Y %H:%i') as data_formatada FROM PI_Duvidas WHERE ativo = 1 ORDER BY data_envio DESC";
-  
+
   conexao.query(query, (err, results) => {
     if (err) {
       console.error('Erro ao buscar dúvidas:', err);
@@ -35,34 +35,36 @@ function carregarDuvidas() {
 
     results.forEach(duvida => {
       const row = tabela.insertRow();
-      
-      // Nome com e-mail no tooltip (sem pontilhado embaixo)
+
+      // Nome com e-mail no tooltip
       const celulaNome = row.insertCell(0);
       celulaNome.innerHTML = `<span style="font-weight: 500;" title="E-mail: ${duvida.email}">${duvida.nome}</span>`;
-      
-      // Tipo (badge customizada dependendo do tipo)
+
+      // Tipo
       const celulaTipo = row.insertCell(1);
       celulaTipo.innerText = duvida.tipo;
-      
-      // Mensagem (com limite de largura e tooltip ao passar o mouse)
+
+      // Mensagem — ocupa toda a largura da coluna, truncada pela própria td
       const celulaMensagem = row.insertCell(2);
       const mensagemEscapada = duvida.mensagem.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-      celulaMensagem.innerHTML = `<div style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin: 0 auto;" title="${mensagemEscapada}">${duvida.mensagem}</div>`;
-      
-      // Status (pendente ou respondida)
+      celulaMensagem.innerHTML = `<div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 100%;" title="${mensagemEscapada}">${duvida.mensagem}</div>`;
+
+      // Status
       const celulaStatus = row.insertCell(3);
       const isRespondida = duvida.status === 'respondida';
-      celulaStatus.innerHTML = isRespondida 
-        ? `<span class="badge bg-success">Respondida</span>` 
+      celulaStatus.innerHTML = isRespondida
+        ? `<span class="badge bg-success">Respondida</span>`
         : `<span class="badge bg-warning text-dark">Pendente</span>`;
-      
+
       // Data
       row.insertCell(4).innerText = duvida.data_formatada;
-      
+
       // Ações
       const celulaAcoes = row.insertCell(5);
+      celulaAcoes.className = 'acoes';
+
       if (isRespondida) {
-        // Mostra botão para ver no Gmail (Enviados)
+        // Ver no Gmail
         const btnVer = document.createElement('button');
         btnVer.className = 'btn-custom-outline me-1';
         btnVer.innerText = 'Ver no Gmail';
@@ -71,7 +73,7 @@ function carregarDuvidas() {
         };
         celulaAcoes.appendChild(btnVer);
 
-        // Botão para reabrir a dúvida
+        // Reabrir
         const btnReabrir = document.createElement('button');
         btnReabrir.className = 'btn-custom-outline me-1';
         btnReabrir.innerText = 'Reabrir';
@@ -80,7 +82,7 @@ function carregarDuvidas() {
         };
         celulaAcoes.appendChild(btnReabrir);
       } else {
-        // Botão para responder (apenas abre o Gmail)
+        // Responder
         const btnResponder = document.createElement('button');
         btnResponder.className = 'btn-custom-web me-1';
         btnResponder.innerText = 'Responder';
@@ -90,13 +92,13 @@ function carregarDuvidas() {
 
 Em resposta à sua dúvida/mensagem:
 "${duvida.mensagem}"`;
-          
+
           const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(duvida.email)}&su=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpoEmail)}`;
           shell.openExternal(gmailUrl);
         };
         celulaAcoes.appendChild(btnResponder);
 
-        // Botão para confirmar o envio no banco
+        // Confirmar Envio
         const btnConfirmar = document.createElement('button');
         btnConfirmar.className = 'btn-custom-outline me-1';
         btnConfirmar.innerText = 'Confirmar Envio';
@@ -105,8 +107,8 @@ Em resposta à sua dúvida/mensagem:
         };
         celulaAcoes.appendChild(btnConfirmar);
       }
-      
-      // Botão para apagar/arquivar
+
+      // Excluir
       const btnExcluir = document.createElement('button');
       btnExcluir.className = 'btn-custom-danger';
       btnExcluir.innerText = 'Excluir';
@@ -168,9 +170,9 @@ inputPesquisa.addEventListener('input', () => {
 });
 
 window.addEventListener('DOMContentLoaded', carregarDuvidas);
+
 const emailLogado = localStorage.getItem('emailLogado');
 
-// Carregar foto de adm (adaptado de pag2.js)
 function carregarFotoAdm(email) {
   if (!email) return;
   const query = 'SELECT foto FROM PI_Usuario WHERE email = ?';
@@ -184,4 +186,5 @@ function carregarFotoAdm(email) {
     }
   });
 }
+
 carregarFotoAdm(emailLogado);

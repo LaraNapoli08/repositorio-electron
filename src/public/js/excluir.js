@@ -1,6 +1,4 @@
-
 const mysql = require('mysql2');
-
 
 const conexao = mysql.createConnection({
   host: '143.106.241.4',
@@ -21,9 +19,7 @@ if (!tabela) {
   console.error('❌ tabelaUsuarios não encontrada no HTML!');
 }
 
-
 function criarModalFofinho() {
-
   const overlay = document.createElement('div');
   overlay.style.position = 'fixed';
   overlay.style.inset = '0';
@@ -46,7 +42,6 @@ function criarModalFofinho() {
   header.style.background = ' #6c757d';
   header.style.color = '#fff';
   header.style.padding = '12px 16px';
-  header.innerHTML = '<strong>Confirmar desativação</strong>';
 
   const body = document.createElement('div');
   body.style.padding = '18px';
@@ -86,13 +81,12 @@ function criarModalFofinho() {
   card.appendChild(footer);
   overlay.appendChild(card);
 
-
-  function mostrar(texto) {
+  function mostrar(titulo, texto) {
     return new Promise(resolve => {
+      header.innerHTML = `<strong>${titulo}</strong>`;
       body.innerHTML = texto;
       document.body.appendChild(overlay);
 
- 
       overlay.addEventListener('click', (ev) => {
         if (ev.target === overlay) {
           overlay.remove();
@@ -118,12 +112,12 @@ function criarModalFofinho() {
 const modalFofinho = criarModalFofinho();
 
 function carregarUsuarios() {
-  console.log('🔁0,arregando usuários...');
-  const query = 'SELECT id_usuario, nome, email, tipo_dom FROM PI_Usuario WHERE ativo = 1';
+  console.log('🔁 Carregando usuários...');
+  const query = 'SELECT id_usuario, nome, email, tipo_dom, ativo FROM PI_Usuario';
   conexao.query(query, (err, results) => {
-    if (err) {0
+    if (err) {
       console.error('Erro ao buscar usuários:', err);
-      tabela.innerHTML = `<tr><td colspan="4">Erro ao carregar usuários.</td></tr>`;
+      tabela.innerHTML = `<tr><td colspan="5">Erro ao carregar usuários.</td></tr>`;
       return;
     }
 
@@ -133,6 +127,7 @@ function carregarUsuarios() {
         <th>Nome</th>
         <th>Email</th>
         <th>Tipo</th>
+        <th>Status</th>
       </tr>
     `;
 
@@ -143,29 +138,37 @@ function carregarUsuarios() {
       row.insertCell(2).innerText = user.email;
       row.insertCell(3).innerText = user.tipo_dom;
 
+      const statusCell = row.insertCell(4);
+      statusCell.innerText = user.ativo ? 'Ativo' : 'Inativo';
+      statusCell.style.color = user.ativo ? 'green' : 'red';
+      statusCell.style.fontWeight = 'bold';
+
+      if (!user.ativo) row.style.opacity = '0.65';
+
       row.style.cursor = 'pointer';
 
       row.addEventListener('mouseenter', () => row.style.backgroundColor = '#ffffffdc');
       row.addEventListener('mouseleave', () => row.style.backgroundColor = '');
 
-      row.addEventListener('click', async (ev) => {
-        console.log('row clicada ->', user.id_usuario, user.nome);
+      row.addEventListener('click', async () => {
+        const acao = user.ativo ? 'desativar' : 'reativar';
+        const titulo = user.ativo ? 'Confirmar desativação' : 'Confirmar reativação';
+        const novoStatus = user.ativo ? 0 : 1;
 
-        const texto = `Deseja realmente desativar <b style="color:#8f8f8fdc;">${user.nome}</b>?<br><small style="color:#000000dc;">${user.email}</small>`;
-        const confirmado = await modalFofinho.mostrar(texto);
-        console.log('confirmado?', confirmado);
+        const texto = `Deseja realmente <b>${acao}</b> <b style="color:#8f8f8fdc;">${user.nome}</b>?<br><small style="color:#000000dc;">${user.email}</small>`;
+        const confirmado = await modalFofinho.mostrar(titulo, texto);
         if (!confirmado) return;
 
-        const updateQuery = 'UPDATE PI_Usuario SET ativo = 0 WHERE id_usuario = ?';
-        conexao.query(updateQuery, [user.id_usuario], (err2) => {
+        const updateQuery = 'UPDATE PI_Usuario SET ativo = ? WHERE id_usuario = ?';
+        conexao.query(updateQuery, [novoStatus, user.id_usuario], (err2) => {
           if (err2) {
-            console.error('Erro ao desativar:', err2);
+            console.error(`Erro ao ${acao}:`, err2);
 
             const errBox = document.createElement('div');
-            errBox.textContent = 'Erro ao desativar usuário.';
+            errBox.textContent = `Erro ao ${acao} usuário.`;
             errBox.style.position = 'fixed';
             errBox.style.bottom = '20px';
-            errBox.style.bottom = '20px';
+            errBox.style.right = '20px';
             errBox.style.background = 'rgb(255, 255, 255)';
             errBox.style.color = '#000000';
             errBox.style.padding = '10px 14px';
@@ -176,7 +179,7 @@ function carregarUsuarios() {
           }
 
           const okBox = document.createElement('div');
-          okBox.textContent = ` ${user.nome} desativado(a) com sucesso!`;
+          okBox.textContent = ` ${user.nome} ${user.ativo ? 'desativado(a)' : 'reativado(a)'} com sucesso!`;
           okBox.style.position = 'fixed';
           okBox.style.bottom = '20px';
           okBox.style.right = '20px';
@@ -191,23 +194,20 @@ function carregarUsuarios() {
             setTimeout(() => okBox.remove(), 400);
           }, 1600);
 
-
           carregarUsuarios();
         });
       });
     });
 
-
     if (results.length === 0) {
       const r = tabela.insertRow();
       const c = r.insertCell(0);
-      c.colSpan = 4;
-      c.innerText = 'Nenhum usuário ativo encontrado.';
+      c.colSpan = 5;
+      c.innerText = 'Nenhum usuário encontrado.';
       c.style.padding = '18px';
     }
   });
 }
-
 
 if (inputPesquisa) {
   inputPesquisa.addEventListener('input', () => {
@@ -223,7 +223,6 @@ if (inputPesquisa) {
 } else {
   console.warn('⚠️ inputPesquisa (id="pesquisa") não encontrado');
 }
-
 
 window.addEventListener('DOMContentLoaded', () => {
   carregarUsuarios();

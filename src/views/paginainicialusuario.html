@@ -93,6 +93,8 @@
       color: white !important;
     }
 
+    
+
     /* ===== CONTEÚDO PRINCIPAL - FUNDO IGUAL SEGUNDO HTML ===== */
     .content {
       margin-left: 250px;
@@ -168,7 +170,7 @@
       display: block;
       padding: 10px 15px;
       border: 1px solid #e5e7eb;
-    border-radius: 12px;
+      border-radius: 12px;
       outline: none;
       font-size: 0.85rem;
     }
@@ -178,58 +180,51 @@
       box-shadow: 0 0 0 3px rgba(108, 117, 125, 0.1);
     }
 
+    #saudacao
+  {
+      border-bottom: 2px solid #6c757d;
+  padding-bottom: 10px;
+  display: inline-block;
+  }
   </style>
 </head>
 
 <body>
 
-    <div class="sidebar d-flex flex-column fw-bold">
+
+  <div class="sidebar d-flex flex-column fw-bold">
     <img src="../public/img/userteste.png" alt="Foto do perfil" class="perfil-foto" id="fotoPerfil">
     <a href="paginainicialusuario.html"><i class="bi bi-people-fill"></i> Lista de Usuários</a>
-    <a href="desativar.html"><i class="bi bi-person-x-fill"></i> Desativar Usuário</a>
+
     <a href="cadastroAdm.html"><i class="bi bi-person-plus-fill"></i> Cadastrar Administrador</a>
     <a href="editarperfil.html"><i class="bi bi-pencil-square"></i> Editar seu Perfil</a>
-     <a href="duvidas.html"><i class="bi bi-envelope"></i> Dúvidas de Usuários</a>
+     <a href="duvidas.html"><i class="bi bi-envelope"></i></i> Feedbacks de Usuários</a>
     <a href="index.html"><i class="bi bi-box-arrow-right"></i> Sair de sua conta</a>
   </div>
+ <div class="content">
 
-  <div class="content">
-
-    <h1 id="saudacao">Olá!</h1>
-   
-
-    <p" class="subtitle">Lista de Usuários</p>
-
-
-    <div class="table-container">
-      <input type="text" id="pesquisa" placeholder="Pesquisar por ID, nome ou e-mail...">
-      <table id="tabelaUsuarios">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>Email</th>
-            <th>Tipo</th>
-          </tr>
-        </thead>
-    
+    <div class="header">
+      <h1>Lista de Usuários</h1>
+      <p class="subtitle">Gerencie os usuários do sistema, desative e ative usuários.</p>
     </div>
-  </div>
 
-  <script src="../public/js/pag2.js"></script>
-  <script>
-    const nome = localStorage.getItem('nomeUsuario');
-    const saudacao = document.getElementById('saudacao');
-    if (nome) {
-      saudacao.innerText = `Olá ${nome}!`;
-    }
 
-    const fotoSalva = localStorage.getItem('fotoPerfil');
-    const fotoElement = document.getElementById('fotoPerfil');
-    if (fotoSalva && fotoElement) {
-      fotoElement.src = fotoSalva;
-    }
-  </script>
+    <div class="card-usuarios">
+      <input type="text" id="pesquisa" placeholder="Pesquisar Usuário " width="100%">
+
+
+      <table id="tabelaUsuarios">
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>Email</th>
+          <th>Tipo</th>
+        </tr>
+      </table>
+
+    </div>
+
+    <script src="../public/js/excluir.js"></script>
 
 </body>
 
