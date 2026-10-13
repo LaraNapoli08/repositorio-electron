@@ -36,7 +36,6 @@
       overflow-x: hidden;
     }
 
-    /* ===== SIDEBAR ===== */
     .sidebar {
       position: fixed;
       top: 0;
@@ -91,7 +90,7 @@
       color: white !important;
     }
 
-    /* ===== CONTEÚDO ===== */
+
     .content {
       margin-left: var(--sidebar-largura);
       padding: 30px;
@@ -151,22 +150,20 @@
       text-overflow: ellipsis;
     }
 
-    /* ===== COLUNAS (Nome, Tipo, Mensagem, Status, Data, Ações) ===== */
-    table th:nth-child(1), table td:nth-child(1) { width: 110px; }  /* Nome */
-    table th:nth-child(2), table td:nth-child(2) { width: 90px; }   /* Tipo */
-    table th:nth-child(3), table td:nth-child(3) { /* Mensagem — flexível */ }
-    table th:nth-child(4), table td:nth-child(4) { width: 100px; }  /* Status */
-    table th:nth-child(5), table td:nth-child(5) { width: 110px; }  /* Data */
-    table th:nth-child(6), table td:nth-child(6) { width: 330px; }  /* Ações — cabe os 3 botões */
+    table th:nth-child(1), table td:nth-child(1) { width: 110px; }
+    table th:nth-child(2), table td:nth-child(2) { width: 90px; }
+    table th:nth-child(3), table td:nth-child(3) {}
+    table th:nth-child(4), table td:nth-child(4) { width: 100px; }
+    table th:nth-child(5), table td:nth-child(5) { width: 110px; }
+    table th:nth-child(6), table td:nth-child(6) { width: 330px; }
 
-    /* Mensagem alinhada à esquerda, truncada */
+   
     table td:nth-child(3) {
       text-align: left;
       white-space: nowrap;
       text-overflow: ellipsis;
     }
 
-    /* Data não quebra */
     table td:nth-child(5) {
       white-space: nowrap;
     }
@@ -253,7 +250,7 @@
       color: #fff;
     }
 
-    /* Célula de Ações — botões LADO A LADO, sem quebrar */
+
     td.acoes {
       padding: 12px 8px !important;
       overflow: visible !important;
@@ -267,7 +264,6 @@
       margin: 0 3px;
     }
 
-    /* ===================== RESPONSIVO ===================== */
     @media (max-width: 1300px) {
       table th:nth-child(1), table td:nth-child(1) { width: 95px; }
       table th:nth-child(2), table td:nth-child(2) { width: 80px; }
@@ -314,7 +310,6 @@
       .content { padding: 20px 14px; }
       h1 { font-size: 1.5rem; }
 
-      /* Scroll horizontal pra tudo caber */
       .table-container > div {
         overflow-x: auto !important;
       }

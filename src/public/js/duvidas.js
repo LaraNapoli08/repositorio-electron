@@ -36,35 +36,32 @@ function carregarDuvidas() {
     results.forEach(duvida => {
       const row = tabela.insertRow();
 
-      // Nome com e-mail no tooltip
       const celulaNome = row.insertCell(0);
       celulaNome.innerHTML = `<span style="font-weight: 500;" title="E-mail: ${duvida.email}">${duvida.nome}</span>`;
 
-      // Tipo
+      
       const celulaTipo = row.insertCell(1);
       celulaTipo.innerText = duvida.tipo;
 
-      // Mensagem — ocupa toda a largura da coluna, truncada pela própria td
       const celulaMensagem = row.insertCell(2);
       const mensagemEscapada = duvida.mensagem.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
       celulaMensagem.innerHTML = `<div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 100%;" title="${mensagemEscapada}">${duvida.mensagem}</div>`;
 
-      // Status
+    
       const celulaStatus = row.insertCell(3);
       const isRespondida = duvida.status === 'respondida';
       celulaStatus.innerHTML = isRespondida
         ? `<span class="badge bg-success">Respondida</span>`
         : `<span class="badge bg-warning text-dark">Pendente</span>`;
 
-      // Data
+  
       row.insertCell(4).innerText = duvida.data_formatada;
 
-      // Ações
       const celulaAcoes = row.insertCell(5);
       celulaAcoes.className = 'acoes';
 
       if (isRespondida) {
-        // Ver no Gmail
+
         const btnVer = document.createElement('button');
         btnVer.className = 'btn-custom-outline me-1';
         btnVer.innerText = 'Ver no Gmail';
@@ -73,7 +70,6 @@ function carregarDuvidas() {
         };
         celulaAcoes.appendChild(btnVer);
 
-        // Reabrir
         const btnReabrir = document.createElement('button');
         btnReabrir.className = 'btn-custom-outline me-1';
         btnReabrir.innerText = 'Reabrir';
@@ -82,7 +78,7 @@ function carregarDuvidas() {
         };
         celulaAcoes.appendChild(btnReabrir);
       } else {
-        // Responder
+
         const btnResponder = document.createElement('button');
         btnResponder.className = 'btn-custom-web me-1';
         btnResponder.innerText = 'Responder';
@@ -90,15 +86,15 @@ function carregarDuvidas() {
           const assunto = 'Sectio Áurea - Resposta à sua mensagem';
           const corpoEmail = `Olá, ${duvida.nome}!
 
-Em resposta à sua dúvida/mensagem:
-"${duvida.mensagem}"`;
+          Em resposta à sua dúvida/mensagem:
+          "${duvida.mensagem}"`;
 
           const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(duvida.email)}&su=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpoEmail)}`;
           shell.openExternal(gmailUrl);
         };
         celulaAcoes.appendChild(btnResponder);
 
-        // Confirmar Envio
+ 
         const btnConfirmar = document.createElement('button');
         btnConfirmar.className = 'btn-custom-outline me-1';
         btnConfirmar.innerText = 'Confirmar Envio';
@@ -108,7 +104,6 @@ Em resposta à sua dúvida/mensagem:
         celulaAcoes.appendChild(btnConfirmar);
       }
 
-      // Excluir
       const btnExcluir = document.createElement('button');
       btnExcluir.className = 'btn-custom-danger';
       btnExcluir.innerText = 'Excluir';

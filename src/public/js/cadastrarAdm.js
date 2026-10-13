@@ -33,10 +33,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     console.log("📩 Dados enviados:", { nome, email, senha });
 
-    // QUERY base
     const query = 'INSERT INTO PI_Adm (nome, email, senha, foto) VALUES (?, ?, ?, ?)';
 
-    // CASO SEM FOTO
     if (!fotoInput || fotoInput.files.length === 0) {
       conexao.query(query, [nome, email, senha, null], (err, result) => {
 
@@ -57,13 +55,12 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // CASO COM FOTO
     const file = fotoInput.files[0];
     const reader = new FileReader();
 
     reader.onload = function () {
       try {
-        // 🔥 FIX IMPORTANTE (Electron)
+   
         const buffer = Buffer.from(new Uint8Array(this.result));
 
         conexao.query(query, [nome, email, senha, buffer], (err, result) => {
