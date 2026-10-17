@@ -17,9 +17,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   conexao.connect((err) => {
     if (err) {
-      console.error('❌ Erro ao conectar ao MySQL:', err);
+      console.error('Erro ao conectar ao MySQL:', err);
     } else {
-      console.log('✅ Conectado ao MySQL');
+      console.log('Conectado ao MySQL');
     }
   });
 

@@ -11,22 +11,36 @@ conexao.connect(err => console.log(err ? '❌ Erro ao conectar!' : '✅ Conectad
 
 let grafico = null;
 
-// ===== Carrega estatísticas =====
 function carregarEstatisticas() {
-  const query = `
+    const query = `
     SELECT 
-      i.nome AS tipo,
-      i.cor  AS cor,
-      COUNT(u.id_usuario) AS total
-    FROM PI_Inteligencias i
-    LEFT JOIN PI_Usuario u 
-      ON u.tipo_dom = i.nome 
-      AND u.ativo = 1
-    GROUP BY i.id_tipo, i.nome, i.cor
-    HAVING total > 0
-    ORDER BY total DESC
+  CASE 
+    WHEN i.nome IN ('Corporal', 'Cinestésica') THEN 'Corporal-Cinestésica'
+    ELSE i.nome 
+  END AS tipo,
+  
+  CASE 
+    WHEN i.nome IN ('Corporal', 'Cinestésica') THEN '#00bf63'
+    ELSE i.cor 
+  END AS cor,
+  
+  COUNT(u.id_usuario) AS total
+FROM PI_Inteligencias i
+LEFT JOIN PI_Usuario u 
+  ON u.tipo_dom = i.nome 
+  AND u.ativo = 1
+GROUP BY 
+  CASE 
+    WHEN i.nome IN ('Corporal', 'Cinestésica') THEN 'Corporal-Cinestésica'
+    ELSE i.nome 
+  END,
+  CASE 
+    WHEN i.nome IN ('Corporal', 'Cinestésica') THEN '#00bf63'
+    ELSE i.cor 
+  END
+HAVING total > 0
+ORDER BY total DESC;
   `;
-
   conexao.query(query, (err, results) => {
     if (err) {
       console.error('❌ Erro ao buscar estatísticas:', err);
@@ -47,14 +61,12 @@ function carregarEstatisticas() {
   });
 }
 
-// ===== Cards =====
 function montarCards(results) {
   const grid = document.getElementById('gridCards');
   const total = results.reduce((soma, r) => soma + r.total, 0);
 
   grid.innerHTML = '';
 
-  // Card de total geral
   grid.innerHTML += `
     <div class="card-stat">
       <div class="icone" style="background:#1f2937;">
@@ -83,7 +95,7 @@ function montarCards(results) {
   });
 }
 
-// ===== Gráfico =====
+
 function montarGrafico(labels, valores, cores) {
   const ctx = document.getElementById('graficoInteligencia').getContext('2d');
 
@@ -139,7 +151,7 @@ function montarGrafico(labels, valores, cores) {
   });
 }
 
-// ===== Init =====
+
 window.addEventListener('DOMContentLoaded', () => {
   carregarEstatisticas();
 
