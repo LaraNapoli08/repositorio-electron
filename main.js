@@ -3,7 +3,6 @@ const path = require('path');
 
 require('@electron/remote/main').initialize();
 
-
 function createMainWindow() {
   const win = new BrowserWindow({
     width: 1200,
@@ -12,7 +11,8 @@ function createMainWindow() {
     autoHideMenuBar: true,
     webPreferences: {
       nodeIntegration: true,  
-      contextIsolation: false  
+      contextIsolation: false,
+      webSecurity: false // 👈 Libera o CORS para acessar a API local
     }
   });
 
@@ -28,13 +28,13 @@ function createCadastroAdmWindow() {
     autoHideMenuBar: true,
     webPreferences: {
       nodeIntegration: true,  
-      contextIsolation: false
+      contextIsolation: false,
+      webSecurity: false // 👈 Libera aqui também, por garantia
     }
   });
 
   win.loadFile('./src/views/cadastroAdm.html');
 }
-
 
 app.whenReady().then(() => {
   createMainWindow();
@@ -47,6 +47,5 @@ app.whenReady().then(() => {
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit();
 });
-
 
 module.exports = { createCadastroAdmWindow };

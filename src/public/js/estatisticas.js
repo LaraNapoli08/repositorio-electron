@@ -1,64 +1,25 @@
-const mysql = require('mysql2');
-
-const conexao = mysql.createConnection({
-  host: '143.106.241.4',
-  user: 'cl204214',
-  password: 'cl*19072008',
-  database: 'cl204214'
-});
-
-conexao.connect(err => console.log(err ? '❌ Erro ao conectar!' : '✅ Conectado ao MySQL'));
-
 let grafico = null;
 
-function carregarEstatisticas() {
-    const query = `
-    SELECT 
-  CASE 
-    WHEN i.nome IN ('Corporal', 'Cinestésica') THEN 'Corporal-Cinestésica'
-    ELSE i.nome 
-  END AS tipo,
-  
-  CASE 
-    WHEN i.nome IN ('Corporal', 'Cinestésica') THEN '#00bf63'
-    ELSE i.cor 
-  END AS cor,
-  
-  COUNT(u.id_usuario) AS total
-FROM PI_Inteligencias i
-LEFT JOIN PI_Usuario u 
-  ON u.tipo_dom = i.nome 
-  AND u.ativo = 1
-GROUP BY 
-  CASE 
-    WHEN i.nome IN ('Corporal', 'Cinestésica') THEN 'Corporal-Cinestésica'
-    ELSE i.nome 
-  END,
-  CASE 
-    WHEN i.nome IN ('Corporal', 'Cinestésica') THEN '#00bf63'
-    ELSE i.cor 
-  END
-HAVING total > 0
-ORDER BY total DESC;
-  `;
-  conexao.query(query, (err, results) => {
-    if (err) {
-      console.error('❌ Erro ao buscar estatísticas:', err);
-      return;
-    }
+async function carregarEstatisticas() {
+  try {
+    const resposta = await fetch('http://localhost/api_sectio_aurea-main/index.php/api/adm/estatisticas');
+    const json = await resposta.json();
 
-    if (results.length === 0) {
+    if (!json.sucesso || json.dados.length === 0) {
       document.getElementById('semDados').style.display = 'block';
       return;
     }
 
-    const labels = results.map(r => r.tipo);
-    const valores = results.map(r => r.total);
-    const cores = results.map(r => r.cor);
+    const labels = json.dados.map(r => r.tipo);
+    const valores = json.dados.map(r => r.total);
+    const cores = json.dados.map(r => r.cor);
 
-    montarCards(results);
+    montarCards(json.dados);
     montarGrafico(labels, valores, cores);
-  });
+    
+  } catch (erro) {
+    console.error('Erro ao carregar estatísticas:', erro);
+  }
 }
 
 function montarCards(results) {
@@ -67,6 +28,7 @@ function montarCards(results) {
 
   grid.innerHTML = '';
 
+  // Card de total geral
   grid.innerHTML += `
     <div class="card-stat">
       <div class="icone" style="background:#1f2937;">
@@ -79,7 +41,7 @@ function montarCards(results) {
     </div>
   `;
 
-  // Um card por tipo
+  // Um card por tipo de inteligência
   results.forEach(r => {
     grid.innerHTML += `
       <div class="card-stat">
@@ -94,7 +56,6 @@ function montarCards(results) {
     `;
   });
 }
-
 
 function montarGrafico(labels, valores, cores) {
   const ctx = document.getElementById('graficoInteligencia').getContext('2d');
@@ -151,13 +112,11 @@ function montarGrafico(labels, valores, cores) {
   });
 }
 
-
 window.addEventListener('DOMContentLoaded', () => {
   carregarEstatisticas();
-
-  const fotoSalva = localStorage.getItem('fotoPerfil');
+  
+  // Foto da sidebar
+  const fotoSalva = localStorage.getItem('fotoUsuario');
   const fotoElement = document.getElementById('fotoPerfil');
-  if (fotoSalva && fotoElement) {
-    fotoElement.src = fotoSalva;
-  }
+  if (fotoSalva && fotoElement) fotoElement.src = fotoSalva;
 });

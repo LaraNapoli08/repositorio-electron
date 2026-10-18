@@ -1,14 +1,3 @@
-const mysql = require('mysql2');
-
-const conexao = mysql.createConnection({
-  host: '143.106.241.4',
-  user: 'cl204214',
-  password: 'cl*19072008',
-  database: 'cl204214'
-});
-0
-conexao.connect(err => console.log(err ? '❌ Erro ao conectar' : '✅ Conectado!'));
-
 const form = document.getElementById('loginForm');
 const mensagem = document.getElementById('mensagem');
 const btnLogin = form.querySelector('button');
@@ -16,7 +5,7 @@ const btnLogin = form.querySelector('button');
 let tentativas = 0;
 const maxTentativas = 5;
 
-form.addEventListener('submit', e => {
+form.addEventListener('submit', async (e) => {
   e.preventDefault();
 
   if (tentativas >= maxTentativas) {
@@ -29,55 +18,50 @@ form.addEventListener('submit', e => {
   const email = document.getElementById('email').value.trim().toLowerCase();
   const senha = document.getElementById('senha').value.trim();
 
-  const query = 'SELECT * FROM PI_Adm WHERE email = ? LIMIT 1';
-  conexao.query(query, [email], (err, results) => {
-    if (err) return console.error(err);
+  try {
+    // 👇 APONTANDO PARA A ROTA OFICIAL DA API
+    const resposta = await fetch('http://localhost/api_sectio_aurea-main/index.php/api/adm/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, senha })
+    });
 
-    const tentativasRestantes = maxTentativas - tentativas - 1;
+    const dados = await resposta.json();
 
-    if (results.length === 0) {
+    if (resposta.ok && dados.sucesso) {
+      tentativas = 0;
+      mensagem.innerText = `Bem-vindo, ${dados.usuario.nome}!`;
+      mensagem.classList.remove('text-danger');
+      mensagem.classList.add('text-success');
+
+      localStorage.setItem('emailLogado', dados.usuario.email);
+      localStorage.setItem('nomeUsuario', dados.usuario.nome);
+      
+      if (dados.usuario.foto) {
+        localStorage.setItem('fotoUsuario', `data:image/png;base64,${dados.usuario.foto}`);
+      } else {
+        localStorage.setItem('fotoUsuario', '../public/img/userteste.png');
+      }
+
+      const splash = document.getElementById('splashScreen');
+      if (splash) splash.style.display = 'flex';
+      
+      setTimeout(() => {
+        window.location.href = 'paginainicialusuario.html';
+      }, 2000);
+      
+    } else {
       tentativas++;
-      mensagem.innerText = tentativasRestantes > 0
-        ? `Usuário não encontrado. Você tem mais ${tentativasRestantes} tentativas.`
+      const restantes = maxTentativas - tentativas;
+      mensagem.innerText = restantes > 0 
+        ? `${dados.message}. Você tem mais ${restantes} tentativas.`
         : 'Você excedeu o número máximo de tentativas!';
       mensagem.classList.add('text-danger');
       if (tentativas >= maxTentativas) btnLogin.disabled = true;
-      return;
     }
-
-    const usuario = results[0];
-
-    if (senha !== usuario.senha) {
-      tentativas++;
-      mensagem.innerText = tentativasRestantes > 0
-        ? `Senha incorreta. Você tem mais ${tentativasRestantes} tentativas.`
-        : 'Você excedeu o número máximo de tentativas!';
-      mensagem.classList.add('text-danger');
-      if (tentativas >= maxTentativas) btnLogin.disabled = true;
-      return;
-    }
-
-    tentativas = 0;
-    mensagem.innerText = `Bem-vindo, ${usuario.nome}!`;
-    mensagem.classList.remove('text-danger');
-    mensagem.classList.add('text-success');
-
-    localStorage.setItem('emailLogado', usuario.email);
-    localStorage.setItem('nomeUsuario', usuario.nome);
-
-     if (usuario.foto) {
-          const base64Foto = Buffer.from(usuario.foto).toString('base64');
-          localStorage.setItem('fotoUsuario', `data:image/png;base64,${base64Foto}`);
-        } else {
-          localStorage.setItem('fotoUsuario', '../public/img/userteste.png');
-        }
-
-        const splash = document.getElementById('splashScreen');
-        splash.style.display = 'flex';
-        
-   
-        setTimeout(() => {
-          window.location.href = 'paginainicialusuario.html';
-        }, 2000);
-  });
+  } catch (erro) {
+    console.error(erro);
+    mensagem.innerText = 'Erro ao conectar com o servidor.';
+    mensagem.classList.add('text-danger');
+  }
 });

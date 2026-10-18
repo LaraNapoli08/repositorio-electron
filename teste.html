@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head><title>Teste de Login API</title></head>
+<body>
+  <h1>Teste de Login</h1>
+  <button onclick="testarLogin()">Testar Login</button>
+  <pre id="resultado"></pre>
+
+  <script>
+    async function testarLogin() {
+  try {
+    const resposta = await fetch('http://localhost/api_sectio_aurea-main/login_teste.php', { // Ou a URL do index.php se preferir
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: 'laricas@gmail.com', senha: '161616' })
+    });
+    
+    // 👇 A MUDANÇA É AQUI: pega como texto primeiro
+    const texto = await resposta.text(); 
+    
+    try {
+        // Tenta converter pra JSON
+        const dados = JSON.parse(texto);
+        document.getElementById('resultado').innerText = JSON.stringify(dados, null, 2);
+    } catch (e) {
+        // Se não for JSON, mostra o HTML cru do erro
+        document.getElementById('resultado').innerText = "ERRO DO PHP:\n\n" + texto;
+    }
+    
+  } catch (e) {
+    document.getElementById('resultado').innerText = 'Erro de rede: ' + e.message;
+  }
+}
+  </script>
+</body>
+</html>
