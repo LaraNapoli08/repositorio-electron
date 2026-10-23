@@ -2,7 +2,7 @@ let grafico = null;
 
 async function carregarEstatisticas() {
   try {
-    const resposta = await fetch('http://localhost/api_sectio_aurea-main/index.php/api/adm/estatisticas');
+    const resposta = await fetch('http://localhost/api_sectio_aurea/index.php/api/adm/estatisticas');
     const json = await resposta.json();
 
     if (!json.sucesso || json.dados.length === 0) {
@@ -11,7 +11,7 @@ async function carregarEstatisticas() {
     }
 
     const labels = json.dados.map(r => r.tipo);
-    const valores = json.dados.map(r => r.total);
+    const valores = json.dados.map(r => Number(r.total));
     const cores = json.dados.map(r => r.cor);
 
     montarCards(json.dados);
@@ -24,7 +24,7 @@ async function carregarEstatisticas() {
 
 function montarCards(results) {
   const grid = document.getElementById('gridCards');
-  const total = results.reduce((soma, r) => soma + r.total, 0);
+  const total = results.reduce((soma, r) => soma + Number(r.total), 0);
 
   grid.innerHTML = '';
 

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+  
 <head><title>Teste de Login API</title></head>
 <body>
   <h1>Teste de Login</h1>
@@ -9,7 +10,7 @@
   <script>
     async function testarLogin() {
   try {
-    const resposta = await fetch('http://localhost/api_sectio_aurea-main/login_teste.php', { // Ou a URL do index.php se preferir
+    const resposta = await fetch('http://localhost/api_sectio_aurea/login_teste.php', { // Ou a URL do index.php se preferir
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: 'laricas@gmail.com', senha: '161616' })

@@ -6,7 +6,7 @@ const inputPesquisa = document.getElementById('pesquisa');
 
 async function carregarDuvidas() {
   try {
-    const resposta = await fetch('http://localhost/api_sectio_aurea-main/index.php/api/adm/duvidas');
+    const resposta = await fetch('http://localhost/api_sectio_aurea/index.php/api/adm/duvidas');
     const results = await resposta.json();
 
     tabela.innerHTML = `
@@ -98,7 +98,7 @@ async function carregarDuvidas() {
 // Função para confirmar envio (atualiza o banco)
 async function responderDuvida(id, resposta) {
   try {
-    const respostaAPI = await fetch(`http://localhost/api_sectio_aurea-main/index.php/api/adm/duvidas/responder/${id}`, {
+    const respostaAPI = await fetch(`http://localhost/api_sectio_aurea/index.php/api/adm/duvidas/responder/${id}`, {
       method: 'PUT', 
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ resposta: resposta })
@@ -111,12 +111,12 @@ async function responderDuvida(id, resposta) {
 }
 
 async function reabrirDuvida(id) {
-  await fetch(`http://localhost/api_sectio_aurea-main/index.php/api/adm/duvidas/reabrir/${id}`, { method: 'PUT' });
+  await fetch(`http://localhost/api_sectio_aurea/index.php/api/adm/duvidas/reabrir/${id}`, { method: 'PUT' });
   carregarDuvidas();
 }
 
 async function excluirDuvida(id) {
-  await fetch(`http://localhost/api_sectio_aurea-main/index.php/api/adm/duvidas/excluir/${id}`, { method: 'PUT' });
+  await fetch(`http://localhost/api_sectio_aurea/index.php/api/adm/duvidas/excluir/${id}`, { method: 'PUT' });
   carregarDuvidas();
 }
 

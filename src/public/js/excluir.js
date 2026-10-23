@@ -50,7 +50,7 @@ const modalFofinho = criarModalFofinho();
 
 async function carregarUsuarios() {
   try {
-    const resposta = await fetch('http://localhost/api_sectio_aurea-main/index.php/api/adm/usuarios');
+    const resposta = await fetch('http://localhost/api_sectio_aurea/index.php/api/adm/usuarios');
     const results = await resposta.json();
 
     tabela.innerHTML = `
@@ -84,7 +84,7 @@ async function carregarUsuarios() {
         if (!confirmado) return;
 
         try {
-          await fetch(`http://localhost/api_sectio_aurea-main/index.php/api/adm/status/${user.id_usuario}`, {
+          await fetch(`http://localhost/api_sectio_aurea/index.php/api/adm/status/${user.id_usuario}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ ativo: user.ativo == 1 ? 0 : 1 })

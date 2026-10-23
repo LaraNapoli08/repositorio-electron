@@ -20,7 +20,7 @@ form.addEventListener('submit', async (e) => {
 
   try {
     // 👇 APONTANDO PARA A ROTA OFICIAL DA API
-    const resposta = await fetch('http://localhost/api_sectio_aurea-main/index.php/api/adm/login', {
+    const resposta = await fetch('http://localhost/api_sectio_aurea/index.php/api/adm/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, senha })
