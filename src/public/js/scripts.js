@@ -19,7 +19,6 @@ form.addEventListener('submit', async (e) => {
   const senha = document.getElementById('senha').value.trim();
 
   try {
-    // 👇 APONTANDO PARA A ROTA OFICIAL DA API
     const resposta = await fetch('http://localhost/api_sectio_aurea/index.php/api/adm/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

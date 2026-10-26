@@ -17,7 +17,6 @@ body {
   overflow-x: hidden;
 }
 
-/* ===== SIDEBAR ===== */
 .sidebar {
   position: fixed;
   top: 0;
@@ -72,7 +71,6 @@ body {
   color: white !important;
 }
 
-/* ===== CONTEÚDO ===== */
 .content {
   margin-left: var(--sidebar-largura);
   padding: 30px;
@@ -98,7 +96,6 @@ h1 {
   display: inline-block;
 }
 
-/* ===== CARD DE FORMULÁRIO ===== */
 .card-form {
   background-color: #fff;
   border-radius: 12px;
@@ -205,7 +202,6 @@ input[type="file"].campos::file-selector-button:hover {
   text-align: center;
 }
 
-/* ===== TABELAS ===== */
 .table-container {
   width: 100%;
   margin-top: 20px;
@@ -253,7 +249,7 @@ tr:hover td {
   transition: background 0.2s;
 }
 
-/* Larguras das colunas (tabela de dúvidas) */
+
 table th:nth-child(1), table td:nth-child(1) { width: 110px; }
 table th:nth-child(2), table td:nth-child(2) { width: 90px; }
 table th:nth-child(4), table td:nth-child(4) { width: 100px; }
@@ -268,7 +264,7 @@ table td:nth-child(3) {
 
 table td:nth-child(5) { white-space: nowrap; }
 
-/* ===== PESQUISA ===== */
+
 #pesquisa {
   width: 100%;
   margin: 20px auto;
@@ -285,7 +281,7 @@ table td:nth-child(5) { white-space: nowrap; }
   box-shadow: 0 0 0 3px rgba(108, 117, 125, 0.1);
 }
 
-/* ===== BOTÕES CUSTOMIZADOS ===== */
+
 .btn-custom-web,
 .btn-custom-outline,
 .btn-custom-danger {

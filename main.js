@@ -12,7 +12,7 @@ function createMainWindow() {
     webPreferences: {
       nodeIntegration: true,  
       contextIsolation: false,
-      webSecurity: false // 👈 Libera o CORS para acessar a API local
+      webSecurity: false 
     }
   });
 
@@ -29,7 +29,7 @@ function createCadastroAdmWindow() {
     webPreferences: {
       nodeIntegration: true,  
       contextIsolation: false,
-      webSecurity: false // 👈 Libera aqui também, por garantia
+      webSecurity: false
     }
   });
 

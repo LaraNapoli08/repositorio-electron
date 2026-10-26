@@ -1,37 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<!--
 
-        public function buscarEstatisticas() {
-        $query = "
-            SELECT 
-              CASE 
-                WHEN i.nome IN ('Corporal', 'Cinestésica') THEN 'Corporal-Cinestésica'
-                ELSE i.nome 
-              END AS tipo,
-              CASE 
-                WHEN i.nome IN ('Corporal', 'Cinestésica') THEN '#00bf63'
-                ELSE i.cor 
-              END AS cor,
-              COUNT(u.id_usuario) AS total
-            FROM PI_Inteligencias i
-            LEFT JOIN PI_Usuario u ON u.tipo_dom = i.nome AND u.ativo = 1
-            GROUP BY 
-              CASE 
-                WHEN i.nome IN ('Corporal', 'Cinestésica') THEN 'Corporal-Cinestésica'
-                ELSE i.nome 
-              END,
-              CASE 
-                WHEN i.nome IN ('Corporal', 'Cinestésica') THEN '#00bf63'
-                ELSE i.cor 
-              END
-            HAVING total > 0
-            ORDER BY total DESC
-        ";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        return $stmt;
-    }-->
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">

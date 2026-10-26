@@ -1,8 +1,8 @@
 const tabela = document.getElementById('tabelaUsuarios');
 const inputPesquisa = document.getElementById('pesquisa');
 
-// Função do Modal (Mantida do seu código original)
-function criarModalFofinho() {
+
+function criarModal() {
   const overlay = document.createElement('div');
   overlay.style.position = 'fixed'; overlay.style.inset = '0'; overlay.style.background = '#ffffff';
   overlay.style.display = 'flex'; overlay.style.alignItems = 'center'; overlay.style.justifyContent = 'center'; overlay.style.zIndex = '9999';
@@ -46,7 +46,7 @@ function criarModalFofinho() {
   }
   return { mostrar };
 }
-const modalFofinho = criarModalFofinho();
+const modal = criarModal();
 
 async function carregarUsuarios() {
   try {
@@ -80,7 +80,7 @@ async function carregarUsuarios() {
         const titulo = user.ativo == 1 ? 'Confirmar desativação' : 'Confirmar reativação';
         
         const texto = `Deseja realmente <b>${acao}</b> <b style="color:#8f8f8fdc;">${user.nome}</b>?<br><small style="color:#000000dc;">${user.email}</small>`;
-        const confirmado = await modalFofinho.mostrar(titulo, texto);
+        const confirmado = await modal.mostrar(titulo, texto);
         if (!confirmado) return;
 
         try {
@@ -89,7 +89,7 @@ async function carregarUsuarios() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ ativo: user.ativo == 1 ? 0 : 1 })
           });
-          carregarUsuarios(); // Recarrega a tabela
+          carregarUsuarios();
         } catch (e) { alert('Erro ao atualizar.'); }
       });
     });

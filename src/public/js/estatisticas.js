@@ -27,8 +27,6 @@ function montarCards(results) {
   const total = results.reduce((soma, r) => soma + Number(r.total), 0);
 
   grid.innerHTML = '';
-
-  // Card de total geral
   grid.innerHTML += `
     <div class="card-stat">
       <div class="icone" style="background:#1f2937;">
@@ -41,7 +39,7 @@ function montarCards(results) {
     </div>
   `;
 
-  // Um card por tipo de inteligência
+
   results.forEach(r => {
     grid.innerHTML += `
       <div class="card-stat">
@@ -114,8 +112,7 @@ function montarGrafico(labels, valores, cores) {
 
 window.addEventListener('DOMContentLoaded', () => {
   carregarEstatisticas();
-  
-  // Foto da sidebar
+
   const fotoSalva = localStorage.getItem('fotoUsuario');
   const fotoElement = document.getElementById('fotoPerfil');
   if (fotoSalva && fotoElement) fotoElement.src = fotoSalva;

@@ -36,7 +36,6 @@ async function carregarDuvidas() {
       celulaAcoes.className = 'acoes';
 
       if (isRespondida) {
-        // BOTÃO: VER NO GMAIL
         const btnVer = document.createElement('button');
         btnVer.className = 'btn-custom-outline me-1';
         btnVer.innerText = 'Ver no Gmail';
@@ -52,7 +51,6 @@ async function carregarDuvidas() {
         btnReabrir.onclick = () => reabrirDuvida(duvida.id_duvida);
         celulaAcoes.appendChild(btnReabrir);
       } else {
-        // BOTÃO: RESPONDER (Abre o e-mail direto)
         const btnResponder = document.createElement('button');
         btnResponder.className = 'btn-custom-web me-1';
         btnResponder.innerText = 'Responder';
@@ -60,18 +58,15 @@ async function carregarDuvidas() {
         btnResponder.onclick = () => {
           const assunto = 'Sectio Áurea - Resposta à sua mensagem';
           const corpoEmail = `Olá, ${duvida.nome}!\n\nEm resposta à sua dúvida/mensagem:\n"${duvida.mensagem}"`;
-          
-          // 1. Prepara a URL de composição do Gmail com os dados
+
           const composeUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(duvida.email)}&su=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpoEmail)}`;
           
-          // 2. Usa a API de redirecionamento de contas do Google para forçar a conta da empresa
           const urlSegura = `https://accounts.google.com/AccountChooser?continue=${encodeURIComponent(composeUrl)}&Email=${EMAIL_EMPRESA}`;
           
           shell.openExternal(urlSegura);
         };
         celulaAcoes.appendChild(btnResponder);
 
-        // BOTÃO: CONFIRMAR ENVIO
         const btnConfirmar = document.createElement('button');
         btnConfirmar.className = 'btn-custom-outline me-1';
         btnConfirmar.innerText = 'Confirmar Envio';
@@ -83,7 +78,6 @@ async function carregarDuvidas() {
         celulaAcoes.appendChild(btnConfirmar);
       }
 
-      // BOTÃO: EXCLUIR
       const btnExcluir = document.createElement('button');
       btnExcluir.className = 'btn-custom-danger';
       btnExcluir.innerText = 'Excluir';
@@ -95,7 +89,6 @@ async function carregarDuvidas() {
   } catch (erro) { console.error(erro); }
 }
 
-// Função para confirmar envio (atualiza o banco)
 async function responderDuvida(id, resposta) {
   try {
     const respostaAPI = await fetch(`http://localhost/api_sectio_aurea/index.php/api/adm/duvidas/responder/${id}`, {

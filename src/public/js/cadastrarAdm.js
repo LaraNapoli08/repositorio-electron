@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const erroEmail = validarEmail(email);
     if (erroEmail) {
       mensagem.style.color = 'red';
-      mensagem.innerText = '❌ ' + erroEmail;
+      mensagem.innerText = '' + erroEmail;
       return;
     }
 
@@ -53,15 +53,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (resposta.ok) {
         mensagem.style.color = 'green';
-        mensagem.innerText = '✅ ' + dados.message;
+        mensagem.innerText = '' + dados.message;
         form.reset();
       } else {
         mensagem.style.color = 'red';
-        mensagem.innerText = '❌ ' + dados.message;
+        mensagem.innerText = '' + dados.message;
       }
     } catch (erro) {
       mensagem.style.color = 'red';
-      mensagem.innerText = '❌ Erro ao conectar com o servidor.';
+      mensagem.innerText = 'Erro ao conectar com o servidor.';
     }
   });
 });

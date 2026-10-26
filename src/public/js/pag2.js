@@ -9,9 +9,7 @@ const conexao = mysql.createConnection({
   database: 'cl204214'
 });
 
-
-
-conexao.connect(err => console.log(err ? '❌ Erro ao conectar!' : '✅ Conectado ao MySQL'));
+conexao.connect(err => console.log(err ? 'Erro ao conectar!' : 'Conectado ao MySQL'));
 
 const tabela = document.getElementById('tabelaUsuarios');
 const inputPesquisa = document.getElementById('pesquisa');
@@ -25,7 +23,6 @@ function carregarUsuarios() {
       console.error('Erro ao buscar usuários:', err);
       return;
     }
-
 
     tabela.innerHTML = `
       <tr>
